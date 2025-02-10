@@ -155,12 +155,12 @@ ALTER TABLE `comment_like`
 
 CREATE TABLE `follow`
 (
-    `follow_id` NOT NULL COMMENT '팔로우ID',
+    `follow_id`    INTEGER NOT NULL AUTO_INCREMENT
+ COMMENT '팔로우ID',
     `following_code`    INTEGER NOT NULL COMMENT '팔로잉코드',
     `following_code1`    INTEGER NOT NULL COMMENT '팔로워코드',
  PRIMARY KEY ( `follow_id` )
 ) COMMENT = '팔로우';
-
 
 ALTER TABLE `follow`
  ADD CONSTRAINT `follow_FK` FOREIGN KEY ( `following_code` )
@@ -244,7 +244,7 @@ CREATE TABLE `opu_add`
  COMMENT 'OPU 추가 ID',
     `user_code`    INTEGER NOT NULL COMMENT '사용자코드',
     `date`    DATE NOT NULL COMMENT '날짜',
-    `is_check`    CHAR(1) NOT NULL COMMENT '체크여부',
+    `is_check`    CHAR(1) DEFAULT 'N' NOT NULL COMMENT '체크여부',
     `opu_content`    VARCHAR(30) COMMENT 'OPU내용',
     `opu_list_id`    INTEGER COMMENT 'OPU목록ID',
  PRIMARY KEY ( `OPU 추가 ID` )
