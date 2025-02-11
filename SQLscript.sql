@@ -305,6 +305,24 @@ ALTER TABLE `result`
  ADD CONSTRAINT `result_FK` FOREIGN KEY ( `user_code` )
  REFERENCES `user` (`user_code` );
 
+CREATE TABLE `opu_like`
+(
+    `opu_like_id`    INTEGER NOT NULL AUTO_INCREMENT
+ COMMENT 'OPU 찜 ID',
+    `user_code`    INTEGER NOT NULL COMMENT '사용자코드',
+    `opu_list_id`    INTEGER NOT NULL COMMENT 'OPU목록ID',
+ PRIMARY KEY ( `opu_like_id` )
+) COMMENT = 'OPU 찜';
+
+ALTER TABLE `opu_like`
+ ADD CONSTRAINT `opu_like_FK` FOREIGN KEY ( `opu_list_id` )
+ REFERENCES `opu_list` (`opu_list_id` );
+
+ALTER TABLE `opu_like`
+ ADD CONSTRAINT `opu_like_FK1` FOREIGN KEY ( `user_code` )
+ REFERENCES `user` (`user_code` );
+
+
 
 
 
