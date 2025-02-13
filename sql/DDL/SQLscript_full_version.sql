@@ -55,7 +55,7 @@ CREATE OR REPLACE TABLE `user` (
     `is_public`    CHAR(1)      DEFAULT 'N' COMMENT '계정 공개 여부',
     `is_delete`    CHAR(1)      NOT NULL DEFAULT 'N' COMMENT '탈퇴 여부',
     `delete_date`  TIMESTAMP    COMMENT '탈퇴 신청 날짜',
-    `level_id`     INTEGER      NOT NULL COMMENT '등급 ID',
+    `level_id`     INTEGER      DEFAULT 1 NOT NULL COMMENT '등급 ID',
     PRIMARY KEY (`user_code`),
     UNIQUE ( `user_id`,`phone` ),
     FOREIGN KEY (`level_id`)
