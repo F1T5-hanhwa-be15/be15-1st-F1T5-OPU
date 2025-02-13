@@ -106,6 +106,94 @@ CREATE OR REPLACE TABLE `blacklist` (
         REFERENCES `user` (`user_code` )
 ) COMMENT = '블랙리스트';
 
+-- 성향결과
+CREATE OR REPLACE TABLE `result` (
+    `user_code`       INTEGER NOT NULL COMMENT '사용자코드',
+    `health_score`    INTEGER NOT NULL DEFAULT 0 COMMENT '건강점수',
+    `food_score`      INTEGER NOT NULL DEFAULT 0 COMMENT '음식점수',
+    `culture_score`   INTEGER NOT NULL DEFAULT 0 COMMENT '문화점수',
+    `knowledge_score` INTEGER NOT NULL DEFAULT 0 COMMENT '지식점수',
+    PRIMARY KEY (`user_code`),
+    FOREIGN KEY (`user_code`)
+        REFERENCES `user` (`user_code`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) COMMENT = '성향결과';
+
+-- OPU스크립트
+CREATE OR REPLACE TABLE `opu_script` (
+    `opu_id`          INTEGER      NOT NULL AUTO_INCREMENT COMMENT 'OPUID',
+    `opu_content`     VARCHAR(30)  NOT NULL COMMENT 'OPU내용',
+    `opu_category_id` INTEGER      NOT NULL COMMENT 'OPU카테고리ID',
+    PRIMARY KEY (`opu_id`),
+    FOREIGN KEY (`opu_category_id`)
+        REFERENCES `opu_category` (`opu_category_id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) COMMENT = 'OPU스크립트';
+
+-- 시간ID
+CREATE OR REPLACE TABLE `time` (
+    `time_id`      INTEGER      NOT NULL AUTO_INCREMENT COMMENT '시간ID',
+    `time_content` VARCHAR(20)  NOT NULL COMMENT '시간내용',
+    PRIMARY KEY (`time_id`)
+) COMMENT = '시간ID';
+
+-- OPU목록
+CREATE OR REPLACE TABLE `opu_list` (
+    `opu_list_id` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'OPU목록ID',
+    `opu_id`      INTEGER NOT NULL COMMENT 'OPUID',
+    `time_id`     INTEGER NOT NULL COMMENT '시간ID',
+    PRIMARY KEY (`opu_list_id`),
+    FOREIGN KEY (`time_id`)
+        REFERENCES `time` (`time_id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (`opu_id`)
+        REFERENCES `opu_script` (`opu_id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) COMMENT = 'OPU목록';
+
+-- OPU추가
+CREATE OR REPLACE TABLE `opu_add` (
+    `opu_add_id`   INTEGER     NOT NULL AUTO_INCREMENT COMMENT 'OPU 추가 ID',
+    `user_code`    INTEGER     NOT NULL COMMENT '사용자코드',
+    `date`         DATE        NOT NULL COMMENT '날짜',
+    `is_check`     CHAR(1)     NOT NULL DEFAULT 'N' COMMENT '체크여부',
+    `opu_content`  VARCHAR(30) COMMENT 'OPU내용',
+    `opu_list_id`  INTEGER     COMMENT 'OPU목록ID',
+    `is_random`    CHAR(1)     DEFAULT 'N' NOT NULL COMMENT '랜덤여부',
+    `is_delete`    CHAR(1)     DEFAULT 'N' NOT NULL COMMENT '삭제여부',
+    PRIMARY KEY (`opu_add_id`),
+    FOREIGN KEY (`opu_list_id`)
+        REFERENCES `opu_list` (`opu_list_id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+    FOREIGN KEY (`user_code`)
+        REFERENCES `user` (`user_code`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) COMMENT = 'OPU추가';
+
+
+-- OPU 찜
+CREATE OR REPLACE TABLE `opu_like` (
+    `opu_like_id` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'OPU 찜 ID',
+    `user_code`   INTEGER NOT NULL COMMENT '사용자코드',
+    `opu_list_id` INTEGER NOT NULL COMMENT 'OPU목록ID',
+    PRIMARY KEY (`opu_like_id`),
+    FOREIGN KEY (`user_code`)
+        REFERENCES `user` (`user_code`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (`opu_list_id`)
+        REFERENCES `opu_list` (`opu_list_id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) COMMENT = 'OPU 찜';
+
+
 -- 게시글 카테고리
 CREATE OR REPLACE TABLE `post_category` (
     `category_id`   INTEGER     NOT NULL AUTO_INCREMENT COMMENT '게시글-카테고리 ID',
@@ -123,6 +211,7 @@ CREATE OR REPLACE TABLE `post` (
     `user_code`    INTEGER      NOT NULL COMMENT '사용자 코드',
     `category_id`  INTEGER      NOT NULL COMMENT '게시글-카테고리 ID',
     `is_delete`    CHAR(1)      DEFAULT 'N' NOT NULL COMMENT '삭제여부',
+    `opu_add_id`    INTEGER COMMENT 'OPU 추가 ID',
     PRIMARY KEY (`post_id`),
     FOREIGN KEY (`user_code`)
         REFERENCES `user` (`user_code`)
@@ -131,7 +220,9 @@ CREATE OR REPLACE TABLE `post` (
     FOREIGN KEY (`category_id`)
         REFERENCES `post_category` (`category_id`)
         ON DELETE CASCADE
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (`opu_add_id`)
+        REFERENCES `opu_add` (`opu_add_id`)
 ) COMMENT = '게시글';
 
 -- 댓글
@@ -217,20 +308,6 @@ CREATE OR REPLACE TABLE `post_like` (
         ON UPDATE CASCADE
 ) COMMENT = '게시글좋아요';
 
--- 성향결과
-CREATE OR REPLACE TABLE `result` (
-    `user_code`       INTEGER NOT NULL COMMENT '사용자코드',
-    `health_score`    INTEGER NOT NULL DEFAULT 0 COMMENT '건강점수',
-    `food_score`      INTEGER NOT NULL DEFAULT 0 COMMENT '음식점수',
-    `culture_score`   INTEGER NOT NULL DEFAULT 0 COMMENT '문화점수',
-    `knowledge_score` INTEGER NOT NULL DEFAULT 0 COMMENT '지식점수',
-    PRIMARY KEY (`user_code`),
-    FOREIGN KEY (`user_code`)
-        REFERENCES `user` (`user_code`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) COMMENT = '성향결과';
-
 -- 신고
 CREATE OR REPLACE TABLE `notify` (
     `notify_id`     INTEGER     NOT NULL AUTO_INCREMENT COMMENT '신고ID',
@@ -253,77 +330,3 @@ CREATE OR REPLACE TABLE `notify` (
         ON DELETE NO ACTION
         ON UPDATE NO ACTION
 ) COMMENT = '신고';
-
--- OPU스크립트
-CREATE OR REPLACE TABLE `opu_script` (
-    `opu_id`          INTEGER      NOT NULL AUTO_INCREMENT COMMENT 'OPUID',
-    `opu_content`     VARCHAR(30)  NOT NULL COMMENT 'OPU내용',
-    `opu_category_id` INTEGER      NOT NULL COMMENT 'OPU카테고리ID',
-    PRIMARY KEY (`opu_id`),
-    FOREIGN KEY (`opu_category_id`)
-        REFERENCES `opu_category` (`opu_category_id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) COMMENT = 'OPU스크립트';
-
--- 시간ID
-CREATE OR REPLACE TABLE `time` (
-    `time_id`      INTEGER      NOT NULL AUTO_INCREMENT COMMENT '시간ID',
-    `time_content` VARCHAR(20)  NOT NULL COMMENT '시간내용',
-    PRIMARY KEY (`time_id`)
-) COMMENT = '시간ID';
-
--- OPU목록
-CREATE OR REPLACE TABLE `opu_list` (
-    `opu_list_id` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'OPU목록ID',
-    `opu_id`      INTEGER NOT NULL COMMENT 'OPUID',
-    `time_id`     INTEGER NOT NULL COMMENT '시간ID',
-    PRIMARY KEY (`opu_list_id`),
-    FOREIGN KEY (`time_id`)
-        REFERENCES `time` (`time_id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (`opu_id`)
-        REFERENCES `opu_script` (`opu_id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) COMMENT = 'OPU목록';
-
--- OPU추가
-CREATE OR REPLACE TABLE `opu_add` (
-    `opu_add_id`   INTEGER     NOT NULL AUTO_INCREMENT COMMENT 'OPU 추가 ID',
-    `user_code`    INTEGER     NOT NULL COMMENT '사용자코드',
-    `date`         DATE        NOT NULL COMMENT '날짜',
-    `is_check`     CHAR(1)     NOT NULL DEFAULT 'N' COMMENT '체크여부',
-    `opu_content`  VARCHAR(30) COMMENT 'OPU내용',
-    `opu_list_id`  INTEGER     COMMENT 'OPU목록ID',
-    `is_random`    CHAR(1)     DEFAULT 'N' NOT NULL COMMENT '랜덤여부',
-    `is_delete`    CHAR(1)     DEFAULT 'N' NOT NULL COMMENT '삭제여부',
-    PRIMARY KEY (`opu_add_id`),
-    FOREIGN KEY (`opu_list_id`)
-        REFERENCES `opu_list` (`opu_list_id`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
-    FOREIGN KEY (`user_code`)
-        REFERENCES `user` (`user_code`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) COMMENT = 'OPU추가';
-
-
--- OPU 찜
-CREATE OR REPLACE TABLE `opu_like` (
-    `opu_like_id` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'OPU 찜 ID',
-    `user_code`   INTEGER NOT NULL COMMENT '사용자코드',
-    `opu_list_id` INTEGER NOT NULL COMMENT 'OPU목록ID',
-    PRIMARY KEY (`opu_like_id`),
-    FOREIGN KEY (`user_code`)
-        REFERENCES `user` (`user_code`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (`opu_list_id`)
-        REFERENCES `opu_list` (`opu_list_id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) COMMENT = 'OPU 찜';
-
