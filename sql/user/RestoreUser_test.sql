@@ -1,6 +1,6 @@
 -- 계정 복구
 -- restoreuser
-DROP PROCEDURE resotruser;
+
 DELIMITER //
 
 CREATE PROCEDURE RestoreUser(
@@ -20,10 +20,12 @@ END //
 
 DELIMITER ;
 
+-- DROP PROCEDURE resotruser;
+
 -- RestoreUser(회원코드, 출력)
 CALL RestoreUser(9,@message);
 SELECT @message;
 
-SELECT is_delete, delete_date
+SELECT user_code, nickname, is_delete, delete_date
 FROM user
 WHERE user_code = 9;
