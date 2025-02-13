@@ -98,11 +98,12 @@ CREATE OR REPLACE TABLE `answer` (
 -- 블랙리스트
 CREATE OR REPLACE TABLE `blacklist` (
     `blacklist_id`   INTEGER      NOT NULL AUTO_INCREMENT COMMENT '블랙리스트 ID',
-    `user_name`      VARCHAR(255) NOT NULL COMMENT '사용자 이름',
-    `phone`          VARCHAR(11)  NOT NULL COMMENT '전화번호',
-    `reason`         VARCHAR(255) NOT NULL COMMENT '사유',
-    `assigned_date`  TIMESTAMP    NOT NULL COMMENT '지정 날짜',
-    PRIMARY KEY (`blacklist_id`)
+    `blacklist_reason`         VARCHAR(255) NOT NULL COMMENT '사유',
+    `blacklist_date`  TIMESTAMP    NOT NULL COMMENT '지정 날짜',
+    `user_code`    INTEGER NOT NULL COMMENT '사용자코드',
+    PRIMARY KEY (`blacklist_id`),
+    FOREIGN KEY ( `user_code` )
+        REFERENCES `user` (`user_code` )
 ) COMMENT = '블랙리스트';
 
 -- 게시글 카테고리
