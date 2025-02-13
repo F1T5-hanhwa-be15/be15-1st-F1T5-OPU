@@ -167,11 +167,6 @@ CREATE OR REPLACE TABLE `opu_add` (
     `is_random`    CHAR(1)     DEFAULT 'N' NOT NULL COMMENT '랜덤여부',
     `is_delete`    CHAR(1)     DEFAULT 'N' NOT NULL COMMENT '삭제여부',
     PRIMARY KEY (`opu_add_id`),
-<<<<<<< HEAD
-    UNIQUE (`user_code`, `date`, `opu_list_id`),
-=======
-    UNIQUE (`user_code`, `date`, `opu_list_id`)
->>>>>>> ecc55819bab6c5b8816330f410b460fc089d4014
     FOREIGN KEY (`opu_list_id`)
         REFERENCES `opu_list` (`opu_list_id`)
         ON DELETE NO ACTION
