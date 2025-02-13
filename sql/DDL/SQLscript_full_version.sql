@@ -50,7 +50,7 @@ CREATE OR REPLACE TABLE `user` (
     `introduce`    VARCHAR(255) COMMENT '한 줄 소개',
     `create_date`  TIMESTAMP    NOT NULL COMMENT '계정 생성 날짜',
     `is_manager`   CHAR(1)      NOT NULL DEFAULT 'N' COMMENT '관리자 권한 여부',
-    `is_ararm`     CHAR(1)      NOT NULL DEFAULT 'Y' COMMENT '알림 설정 여부',
+    `is_alarm`     CHAR(1)      NOT NULL DEFAULT 'Y' COMMENT '알림 설정 여부',
     `is_public`    CHAR(1)      DEFAULT 'N' COMMENT '계정 공개 여부',
     `is_delete`    CHAR(1)      NOT NULL DEFAULT 'N' COMMENT '탈퇴 여부',
     `delete_date`  TIMESTAMP    COMMENT '탈퇴 신청 날짜',
