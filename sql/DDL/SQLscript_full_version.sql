@@ -211,7 +211,7 @@ CREATE OR REPLACE TABLE `post` (
     `user_code`    INTEGER      NOT NULL COMMENT '사용자 코드',
     `category_id`  INTEGER      NOT NULL COMMENT '게시글-카테고리 ID',
     `is_delete`    CHAR(1)      DEFAULT 'N' NOT NULL COMMENT '삭제여부',
-    `opu_add_id`    INTEGER COMMENT 'OPU 추가 ID',
+    `opu_add_id`   INTEGER      COMMENT 'OPU 추가 ID',
     PRIMARY KEY (`post_id`),
     FOREIGN KEY (`user_code`)
         REFERENCES `user` (`user_code`)
