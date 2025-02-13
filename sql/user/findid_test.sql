@@ -7,14 +7,19 @@ CREATE PROCEDURE FindId(
     OUT p_userid VARCHAR(50)
 )
 BEGIN
-    -- 이름과 전화번호가 일치하는 사용자 조회
-    SELECT user_id INTO p_userid
-    FROM user
-    WHERE user_name = p_name AND phone = p_phone
-    LIMIT 1;
+    -- 아이디 조회 (존재하지 않으면 NULL 반환)
+    SELECT COALESCE(
+        (SELECT user_id FROM user WHERE user_name = p_name AND phone = p_phone LIMIT 1), 
+        '일치하는 아이디 없음'
+    ) INTO p_userid;
 END //
 
 DELIMITER ;
 
+-- DROP PROCEDURE FindId;
+
 CALL findid('차명호', '01011111115', @id);
 SELECT @id 아이디;
+
+
+

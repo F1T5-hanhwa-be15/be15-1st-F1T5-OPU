@@ -8,15 +8,15 @@ CREATE PROCEDURE FindAndChangePass(
     OUT p_message VARCHAR(50)
 )
 BEGIN
-	 DECLARE id_count INT;
-	 DECLARE name_count INT;
-    DECLARE phone_count INT;
-    
-    SELECT COUNT(*) INTO id_count FROM user WHERE user_id = p_userid;
-    SELECT COUNT(*) INTO name_count FROM user WHERE user_name = p_name;
-    SELECT COUNT(*) INTO phone_count FROM user WHERE phone = p_phone;
+    DECLARE user_count INT;
 
-    IF id_count > 0 AND name_count > 0 AND phone_count > 0 THEN
+    -- ID, 이름, 전화번호가 일치하는 사용자 조회
+    SELECT COUNT(*) INTO user_count
+    FROM user
+    WHERE user_id = p_userid AND user_name = p_name AND phone = p_phone;
+
+    -- 결과에 따라 메시지 반환
+    IF user_count > 0 THEN
         SET p_message = '비밀번호 변경이 가능합니다.';
     ELSE
         SET p_message = '회원정보가 일치하지 않습니다.';
@@ -25,8 +25,29 @@ END //
 
 DELIMITER ;
 
+-- DROP PROCEDURE FindAndChangePass;
+
 CALL FindAndChangePass('차명호', '01011111115', 'audgh', @message);
 SELECT @message '비밀번호 찾기';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 -- 비밀번호 변경
 DELIMITER //
