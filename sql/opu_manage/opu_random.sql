@@ -4,26 +4,7 @@
 
 
 -- 1. 로그인한 사용자
-
--- result 초기 더미데이터
-INSERT INTO result(user_code, health_score, food_score, culture_score, knowledge_score)
-VALUES
-(13, 10, 30, 20, 40),
-(14, 20, 20, 40, 20),
-(15, 40, 40, 0, 20),
-(16, 30, 30, 30, 10),
-(11, 50, 40, 10, 0),
-(12, 10, 10, 10, 70);
-
--- opu 카테고리 더미데이터
-INSERT INTO opu_category
-VALUES 
- (1, '운동'),
- (2, '지식'),
- (3, '문화생활'),
- (4, '음식');
-
--- user별 rank 매기는 view 생성
+-- 1-1. user별 rank 매기는 view 생성
 CREATE OR REPLACE VIEW user_result_rank AS
 SELECT
     user_code,
@@ -32,34 +13,58 @@ SELECT
     RANK() OVER (PARTITION BY user_code ORDER BY score_value DESC) AS rank_value
 FROM
 (
-    SELECT user_code, '운동'      AS score_type, health_score   AS score_value FROM result
+    SELECT user_code, '1'      AS score_type, health_score   AS score_value FROM result
     UNION ALL
-    SELECT user_code, '음식'      AS score_type, food_score     AS score_value FROM result
+    SELECT user_code, '4'      AS score_type, food_score     AS score_value FROM result
     UNION ALL
-    SELECT user_code, '문화생활'  AS score_type, culture_score  AS score_value FROM result
+    SELECT user_code, '3'  AS score_type, culture_score  AS score_value FROM result
     UNION ALL
-    SELECT user_code, '지식'      AS score_type, knowledge_score AS score_value FROM result
+    SELECT user_code, '2'      AS score_type, knowledge_score AS score_value FROM result
 ) t;
 
 SELECT * from user_result_rank;
 
--- 랜덤 opu 뽑기
--- 1. 2위까지의 주제 뽑기
--- 2. 해당 주제의 opu목록에서 random 돌리기
+
+
+-- 1-2. 프로시저 생성성
 DELIMITER //
 
-CREATE PROCEDURE getRandomOPU(
+CREATE OR REPLACE PROCEDURE getRandomOPUById(
 	IN id VARCHAR(3),
-	IN time_length INTEGER,
-	OUT opu_list_id INTEGER
+	IN time_length INTEGER
 )
 BEGIN 
-   SELECT score_type
-     FROM user_result_rank
-     JOIN 
-    ORDER BY rank_value
-    WHERE user_code = id
-      AND rank_value IN (1,2);
+	DECLARE user_time INTEGER;
+	
+	CASE
+		WHEN (time_length >= 60) THEN
+			SET user_time = 4;
+		when (time_length >= 30) THEN
+			SET user_time = 3;
+		WHEN (time_length >= 10) THEN
+			SET user_time = 2;
+		ELSE
+			SET user_time = 1;
+	END CASE;
+	
+   SELECT o.opu_category_id , o.opu_category_name, u.rank_value, os.opu_content, t.time_content
+     FROM user_result_rank u
+     JOIN opu_category o ON o.opu_category_id = u.score_type
+     JOIN user ON u.user_code = user.user_code
+     JOIN opu_script os ON os.opu_category_id = o.opu_category_id
+     JOIN opu_list ol ON ol.opu_id = os.opu_id
+     JOIN time t ON ol.time_id = t.time_id
+    WHERE user.user_code = id
+      AND u.rank_value IN (1,2)
+      AND ol.time_id = user_time
+    ORDER BY RAND()
+	 LIMIT 1;
 END //
 
 DELIMITER ;
+
+
+-- 1-3. 실행 쿼리
+CALL getRandomOPUById(10, 5);
+CALL getRandomOPUById(13, 10);
+
