@@ -68,3 +68,39 @@ DELIMITER ;
 CALL getRandomOPUById(10, 5);
 CALL getRandomOPUById(13, 10);
 
+-- 2. 로그인 하지 않은 사용자
+-- 2-1. 프로시저 생성
+DELIMITER //
+
+CREATE or replace PROCEDURE getRandomOPU_experience_version(
+	IN time_length INTEGER
+)
+BEGIN 
+	DECLARE user_time INTEGER;
+	
+	CASE
+		WHEN (time_length >= 60) THEN
+			SET user_time = 4;
+		when (time_length >= 30) THEN
+			SET user_time = 3;
+		WHEN (time_length >= 10) THEN
+			SET user_time = 2;
+		ELSE
+			SET user_time = 1;
+	END CASE;
+	
+   SELECT o.opu_category_id , o.opu_category_name, os.opu_content, t.time_content
+     FROM opu_category o
+     JOIN opu_script os ON os.opu_category_id = o.opu_category_id
+     JOIN opu_list ol ON ol.opu_id = os.opu_id
+     JOIN time t ON ol.time_id = t.time_id
+    WHERE ol.time_id = user_time
+    ORDER BY RAND()
+	 LIMIT 1;
+END //
+
+DELIMITER ;
+
+-- 2-2. 실행 쿼리
+CALL getRandomOPU_experience_version(30);
+
