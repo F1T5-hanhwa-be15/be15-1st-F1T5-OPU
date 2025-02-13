@@ -34,6 +34,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 CREATE OR REPLACE TABLE `level` (
     `level_id`    INTEGER NOT NULL AUTO_INCREMENT COMMENT '등급 ID',
     `level_title` VARCHAR(15) NOT NULL COMMENT '등급 이름',
+    `level_criteria`    VARCHAR(255) NOT NULL COMMENT '등급기준',
     PRIMARY KEY (`level_id`)
 ) COMMENT = '등급';
 
@@ -48,7 +49,7 @@ CREATE OR REPLACE TABLE `user` (
     `birth`        DATE         NOT NULL COMMENT '생년월일',
     `profile_img`  TEXT         COMMENT '프로필 사진',
     `introduce`    VARCHAR(255) COMMENT '한 줄 소개',
-    `create_date`  TIMESTAMP    NOT NULL COMMENT '계정 생성 날짜',
+    `create_date`  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '계정 생성 날짜',
     `is_manager`   CHAR(1)      NOT NULL DEFAULT 'N' COMMENT '관리자 권한 여부',
     `is_ararm`     CHAR(1)      NOT NULL DEFAULT 'Y' COMMENT '알림 설정 여부',
     `is_public`    CHAR(1)      DEFAULT 'N' COMMENT '계정 공개 여부',
@@ -56,6 +57,7 @@ CREATE OR REPLACE TABLE `user` (
     `delete_date`  TIMESTAMP    COMMENT '탈퇴 신청 날짜',
     `level_id`     INTEGER      NOT NULL COMMENT '등급 ID',
     PRIMARY KEY (`user_code`),
+    UNIQUE ( `user_id`,`phone` ),
     FOREIGN KEY (`level_id`)
         REFERENCES `level` (`level_id`)
         ON DELETE RESTRICT
@@ -115,10 +117,11 @@ CREATE OR REPLACE TABLE `post` (
     `post_id`      INTEGER      NOT NULL AUTO_INCREMENT COMMENT '게시글 ID',
     `post_title`   VARCHAR(255) NOT NULL COMMENT '제목',
     `post_content` TEXT         NOT NULL COMMENT '내용',
-    `create_at`    TIMESTAMP    NOT NULL COMMENT '생성 시간',
-    `update_at`    TIMESTAMP    NOT NULL COMMENT '마지막 수정 시간',
+    `create_at`    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 시간',
+    `update_at`    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '마지막 수정 시간',
     `user_code`    INTEGER      NOT NULL COMMENT '사용자 코드',
     `category_id`  INTEGER      NOT NULL COMMENT '게시글-카테고리 ID',
+    `is_delete`    CHAR(1)      DEFAULT 'N' NOT NULL COMMENT '삭제여부',
     PRIMARY KEY (`post_id`),
     FOREIGN KEY (`user_code`)
         REFERENCES `user` (`user_code`)
@@ -134,11 +137,12 @@ CREATE OR REPLACE TABLE `post` (
 CREATE OR REPLACE TABLE `comment` (
     `comment_id`       INTEGER   NOT NULL AUTO_INCREMENT COMMENT '댓글 ID',
     `comment_content`  TEXT      NOT NULL COMMENT '댓글 내용',
-    `create_at`        TIMESTAMP NOT NULL COMMENT '댓글 생성 시간',
-    `update_at`        TIMESTAMP NOT NULL COMMENT '마지막 수정 시간',
+    `create_at`        TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '댓글 생성 시간',
+    `update_at`        TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '마지막 수정 시간',
     `post_id`          INTEGER   NOT NULL COMMENT '게시글 ID',
     `user_code`        INTEGER   NOT NULL COMMENT '사용자 코드',
-    `reply_comment_id` INTEGER   COMMENT '답글 ID',
+    `reply_comment_id` INTEGER   COMMENT '상위댓글ID',
+    `is_delete`        CHAR(1)   DEFAULT 'N' NOT NULL COMMENT '삭제여부',
     PRIMARY KEY (`comment_id`),
     FOREIGN KEY (`user_code`)
         REFERENCES `user` (`user_code`)
@@ -230,7 +234,7 @@ CREATE OR REPLACE TABLE `result` (
 CREATE OR REPLACE TABLE `notify` (
     `notify_id`     INTEGER     NOT NULL AUTO_INCREMENT COMMENT '신고ID',
     `notify_reason` TEXT        NOT NULL COMMENT '신고사유',
-    `notify_date`   TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '신고날짜',
+    `notify_date`   TIMESTAMP   DEFAULT CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '신고날짜',
     `user_code`     INTEGER     NOT NULL COMMENT '신고자ID',
     `post_id`       INTEGER     COMMENT '게시글ID',
     `comment_id`    INTEGER     COMMENT '댓글ID',
@@ -292,6 +296,8 @@ CREATE OR REPLACE TABLE `opu_add` (
     `is_check`     CHAR(1)     NOT NULL DEFAULT 'N' COMMENT '체크여부',
     `opu_content`  VARCHAR(30) COMMENT 'OPU내용',
     `opu_list_id`  INTEGER     COMMENT 'OPU목록ID',
+    `is_random`    CHAR(1)     DEFAULT 'N' NOT NULL COMMENT '랜덤여부',
+    `is_delete`    CHAR(1)     DEFAULT 'N' NOT NULL COMMENT '삭제여부',
     PRIMARY KEY (`opu_add_id`),
     FOREIGN KEY (`opu_list_id`)
         REFERENCES `opu_list` (`opu_list_id`)
