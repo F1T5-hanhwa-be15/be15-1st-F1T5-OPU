@@ -57,7 +57,8 @@ CREATE OR REPLACE TABLE `user` (
     `delete_date`  TIMESTAMP    COMMENT '탈퇴 신청 날짜',
     `level_id`     INTEGER      DEFAULT 1 NOT NULL COMMENT '등급 ID',
     PRIMARY KEY (`user_code`),
-    UNIQUE ( `user_id`,`phone` ),
+    UNIQUE ( `user_id` ),
+    UNIQUE ( `phone` ),
     FOREIGN KEY (`level_id`)
         REFERENCES `level` (`level_id`)
         ON DELETE RESTRICT
@@ -166,6 +167,7 @@ CREATE OR REPLACE TABLE `opu_add` (
     `is_random`    CHAR(1)     DEFAULT 'N' NOT NULL COMMENT '랜덤여부',
     `is_delete`    CHAR(1)     DEFAULT 'N' NOT NULL COMMENT '삭제여부',
     PRIMARY KEY (`opu_add_id`),
+    UNIQUE (`user_code`, `date`, `opu_list_id`),
     FOREIGN KEY (`opu_list_id`)
         REFERENCES `opu_list` (`opu_list_id`)
         ON DELETE NO ACTION
