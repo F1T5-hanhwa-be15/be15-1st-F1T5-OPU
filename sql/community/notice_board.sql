@@ -24,7 +24,7 @@ JOIN user u ON p.user_code = u.user_code
 JOIN post_category c ON p.category_id = c.category_id
 	WHERE c.category_name = '공지사항'
 	AND p.is_delete = 'N'
-    AND p.post_title LIKE CONCAT('%', '규칙', '%'); — 검색 키워드
+    AND p.post_title LIKE CONCAT('%', '규칙', '%')
     ORDER BY COALESCE(p.update_at, p.create_at) DESC;
 
 -- 3. 게시글 상세 조회
@@ -52,30 +52,33 @@ WHERE p.post_id = 3
 -- 5. 게시글 추가
 DELIMITER //
 
-CREATE TRIGGER trg_before_post_insert
+CREATE TRIGGER trg_before_post_insert_notice
 BEFORE INSERT ON post
 FOR EACH ROW
 BEGIN
     DECLARE user_manager_status CHAR(1);
 
-    -- user 테이블에서 is_manager 상태 조회
-    SELECT is_manager 
-    INTO user_manager_status
-    FROM user 
-    WHERE user_code = NEW.user_code;
+    -- 공지사항(category_id = 3)일 경우에만 is_manager 확인
+    IF NEW.category_id = 3 THEN
+        SELECT is_manager 
+        INTO user_manager_status
+        FROM user 
+        WHERE user_code = NEW.user_code;
 
-    -- is_manager가 'Y'가 아니면 삽입 중단
-    IF user_manager_status IS NULL THEN
-        SIGNAL SQLSTATE '45000' 
-        SET MESSAGE_TEXT = '존재하지 않는 사용자입니다.';
-    ELSEIF user_manager_status != 'Y' THEN
-        SIGNAL SQLSTATE '45000' 
-        SET MESSAGE_TEXT = '관리자만 게시글을 등록할 수 있습니다.';
+        -- 사용자 유효성 및 관리자 여부 확인
+        IF user_manager_status IS NULL THEN
+            SIGNAL SQLSTATE '45000' 
+            SET MESSAGE_TEXT = '존재하지 않는 사용자입니다.';
+        ELSEIF user_manager_status != 'Y' THEN
+            SIGNAL SQLSTATE '45000' 
+            SET MESSAGE_TEXT = '관리자만 공지사항을 등록할 수 있습니다.';
+        END IF;
     END IF;
 END;
 //
 
 DELIMITER ;
+
 
 
 INSERT INTO post (post_title, post_content, user_code, category_id)
