@@ -30,8 +30,9 @@ SELECT * from user_result_rank;
 DELIMITER //
 
 CREATE OR REPLACE PROCEDURE getRandomOPUById(
-	IN id VARCHAR(3),
-	IN time_length INTEGER
+	IN id INTEGER,
+	IN time_length INTEGER,
+  OUT opu_list_id_result INT
 )
 BEGIN 
 	DECLARE user_time INTEGER;
@@ -47,7 +48,7 @@ BEGIN
 			SET user_time = 1;
 	END CASE;
 	
-   SELECT o.opu_category_id , o.opu_category_name, u.rank_value, os.opu_content, t.time_content
+   SELECT ol.opu_list_id INTO opu_list_id_result
      FROM user_result_rank u
      JOIN opu_category o ON o.opu_category_id = u.score_type
      JOIN user ON u.user_code = user.user_code
