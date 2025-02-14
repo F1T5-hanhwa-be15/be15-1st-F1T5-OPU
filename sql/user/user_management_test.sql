@@ -1,12 +1,11 @@
 -- 사용자 관리 : user_management
 -- 1. 사용자 신고 기록 조회
--- 닉네임,  게시글 이름, 댓글 내용, 신고 아이디, 사유, 날짜
 SELECT 
-    IFNULL(p.post_title, '-') AS post_title,
-    IFNULL(c.comment_content, '-') AS comment_content, 
-    n.user_code,
-    n.notify_reason,
-    n.notify_date
+    IFNULL(p.post_title, '-') AS '게시글 제목',
+    IFNULL(c.comment_content, '-') AS '댓글 내용', 
+    u.user_name AS '신고자 이름' ,
+    n.notify_reason AS '신고 이유',
+    n.notify_date AS '신고 날짜'
 FROM notify n
 JOIN user u ON n.user_code = u.user_code
 LEFT JOIN post p ON n.post_id = p.post_id
@@ -14,20 +13,19 @@ LEFT JOIN comment c ON n.comment_id = c.comment_id
 ORDER BY p.post_id, n.comment_id;
 
 -- 2. 사용자 목록 조회
--- 사용자 코드, 관리자 권한 여부는 제외
 SELECT 
-	user_id,
-	user_name,
-	nickname, 
-	phone,
-	birth,
-	profile_img,
-	introduce,
-	create_date,
-	is_public,
-	is_delete,
-	delete_date,
-	level_id
+	user_id '아이디',
+	user_name '이름',
+	nickname '닉네임', 
+	phone '핸드폰 번호',
+	birth '생일',
+	profile_img '프로필 사진',
+	introduce '한 줄 소개',
+	create_date '계정 생성 날짜',
+	is_public '공개/비공개',
+	is_delete '계정 삭제 여부',
+	delete_date '계정 삭제 날짜',
+	level_id '등급'
 FROM USER; 
 
 -- 3. 사용자 계정 복구
@@ -35,12 +33,15 @@ UPDATE USER
 SET is_delete = 'N'
 WHERE user_code = 7;
 
+SELECT nickname '닉네임',is_delete '계정 삭제 여부' FROM user
+WHERE user_code = 7;
 
--- 4. 사용자 계정 삭제
+-- 4. 사용자 계정 삭제 (30일 이후)
 UPDATE USER
 SET is_delete = 'Y'	
 WHERE delete_date IS NOT NULL
 AND DATEDIFF(CURRENT_DATE(),delete_date)>30;
+
 
 -- 5. 블랙리스트
 -- 블랙리스트 목록 조회
@@ -73,10 +74,6 @@ VALUES (
 	9
 );
 
--- SELECT * FROM blacklist;
-
--- SELECT is_delete FROM user WHERE user_code = 9;
-
 	
 -- 블랙리스트에서 해제되면 사용자 계정 비활성화(삭제) 해제
 DELIMITER //
@@ -95,18 +92,13 @@ DELIMITER ;
 DELETE FROM blacklist 
 WHERE user_code = 9;
 
--- SELECT * FROM blacklist;
-
--- SELECT is_delete FROM user WHERE user_code = 9;
-
-
 -- 6. 사용자 활동 관리
 -- 사용자 활동 기록 조회 
 -- 게시글
 SELECT 
-		u.nickname,
-		p.post_title,
-		p.post_content
+		u.nickname '닉네임',
+		p.post_title '게시글 제목',
+		p.post_content '게시글 내용'
 FROM USER u
 JOIN post p ON u.user_code = p.user_code
 WHERE u.is_manager = 'N'
@@ -134,7 +126,4 @@ AND comment_id =1;
 UPDATE post
 SET is_delete = 'Y'
 WHERE is_delete = 'N'
-AND post_id =1;
-
--- SELECT * FROM post
--- WHERE post_id = 1;
+AND post_id =1;;
