@@ -82,6 +82,85 @@ WHERE user_code = 3
 ORDER BY opu_add_id DESC
 LIMIT 10;
 
+
+-- 3-2) opu 추가 - 사용자 정의일 때
+DELIMITER //
+
+CREATE OR REPLACE PROCEDURE addOPUCustom(
+    IN id INTEGER,
+    IN input_array JSON,
+    IN end_date DATE,
+    IN content VARCHAR(255)
+)
+BEGIN 
+    DECLARE cur_date DATE DEFAULT CURDATE();
+    DECLARE weekday_idx INT;
+    DECLARE repeat_flag INT;
+    
+    WHILE DATEDIFF(end_date, cur_date) >= 0 DO
+        SET weekday_idx = WEEKDAY(cur_date);
+        SET repeat_flag = CAST(JSON_UNQUOTE(JSON_EXTRACT(input_array, CONCAT('$[', weekday_idx, ']'))) AS UNSIGNED);
+        
+        IF repeat_flag = 1 THEN
+            -- 중복 검사 후 INSERT (중복이면 스킵)
+            IF NOT EXISTS (
+                SELECT 1 FROM opu_add o
+                WHERE o.user_code = id 
+                AND o.date = cur_date 
+                AND o.opu_content = content
+            ) THEN
+                INSERT INTO opu_add(user_code, date, opu_content)
+                VALUES (id, cur_date, content);
+            END IF;
+        END IF;
+        
+        SET cur_date = DATE_ADD(cur_date, INTERVAL 1 DAY);
+    END WHILE;
+END //
+
+DELIMITER ;
+
+
+CALL addOPUCustom(3, '[1,1,1,1,1,1,1]', '2025-02-16', '일어나면 창문열고 환기하기');
+
+SELECT *
+FROM opu_add
+WHERE user_code = 3
+ORDER BY opu_add_id DESC
+LIMIT 10;
+
+-- 3-3) 랜덤뽑기 opu 추가
+-- 필수로 미리 opu_random.sql에서 로그인한 사용자 구문 모두 실행해서 view, procedure 만들어놓고 시작
+DELIMITER //
+
+CREATE PROCEDURE random_opu_add(
+	IN id INTEGER,
+	IN time_length INTEGER
+)
+BEGIN
+		DECLARE random_id INT;
+		
+		CALL getRandomOPUById(id, time_length, random_id);
+
+    	IF random_id IS NOT NULL THEN
+        INSERT INTO opu_add(user_code, date, opu_list_id)
+        VALUES (id, CURDATE(), random_id);
+    END IF;
+
+END //
+
+DELIMITER ;
+
+CALL random_opu_add(10, 15);
+
+SELECT o.date, o.user_code, o.is_check, os.opu_content
+  FROM opu_add o
+  JOIN opu_list ol ON ol.opu_list_id = o.opu_list_id
+  JOIN opu_script os ON os.opu_id = ol.opu_id
+ ORDER BY o.opu_add_id DESC;
+
+
+
 -- opu 수정
 UPDATE opu_add
 	SET opu_content = '뒹굴뒹굴 구르기'
