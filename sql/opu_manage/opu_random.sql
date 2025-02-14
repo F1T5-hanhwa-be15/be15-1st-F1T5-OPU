@@ -26,7 +26,7 @@ SELECT * from user_result_rank;
 
 
 
--- 1-2. 프로시저 생성성
+-- 1-2. 프로시저 생성
 DELIMITER //
 
 CREATE OR REPLACE PROCEDURE getRandomOPUById(
@@ -66,8 +66,9 @@ DELIMITER ;
 
 
 -- 1-3. 실행 쿼리
-CALL getRandomOPUById(10, 5);
-CALL getRandomOPUById(13, 10);
+SET @result = null;
+CALL getRandomOPUById(10, 5, @result);
+SELECT @result;
 
 -- 2. 로그인 하지 않은 사용자
 -- 2-1. 프로시저 생성
