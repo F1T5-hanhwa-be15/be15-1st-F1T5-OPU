@@ -35,6 +35,8 @@ SELECT *
 -- 3. opu 추가
 -- 3-1) opu 추가 - 디폴트일 때
 -- 근데 같은 날에 같은 것을 집어넣는다면 그것은 안됨 -> 중복검사 필요
+
+
 DELIMITER //
 
 CREATE OR REPLACE PROCEDURE addOPUFromList(
