@@ -33,18 +33,16 @@ END //
 
 DELIMITER ;
 
--- select check_achievement_rate(6,'2025-02-02');
-
 -- 2.사용자 OPU 기록 조회
 SELECT
 		a.date, 
-		c.opu_content 'user_opu_content',
-		CONCAT(a.opu_content, ' ', d.time_content, '분 동안 하기') AS 'opu_content',
+		a.opu_content 'user_opu_content',
+		CONCAT(c.opu_content, ' ', d.time_content, ' 동안 하기') AS 'opu_content',
 		a.is_check
 FROM opu_add a
-JOIN opu_list b ON a.opu_list_id = b.opu_list_id
-JOIN opu_script c ON b.opu_id= c.opu_id
-JOIN time d ON b.time_id = d.time_id
+LEFT JOIN opu_list b ON a.opu_list_id = b.opu_list_id
+LEFT JOIN opu_script c ON b.opu_id= c.opu_id
+LEFT JOIN time d ON b.time_id = d.time_id
 WHERE a.user_code = 6 	
 AND a.date = '2025-02-02'
 AND is_delete ='N';
