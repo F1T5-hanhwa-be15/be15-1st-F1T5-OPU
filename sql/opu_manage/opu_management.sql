@@ -9,6 +9,16 @@ SELECT o.date, o.user_code, o.is_check, os.opu_content
    AND o.user_code = 3
  ORDER BY o.date;
 
+-- 1-2) 데일리 opu 조회
+SELECT o.date, o.is_check, o.is_random, os.opu_content, t.time_content
+  FROM opu_add o
+  JOIN opu_list ol ON ol.opu_list_id = o.opu_list_id
+  JOIN opu_script os ON os.opu_id = ol.opu_id
+  JOIN time t ON ol.time_id = t.time_id
+ WHERE o.user_code = 6
+   AND o.is_delete = 'N'
+   AND o.date = CURRENT_DATE();
+
 
 -- opu 수정
 UPDATE opu_add
