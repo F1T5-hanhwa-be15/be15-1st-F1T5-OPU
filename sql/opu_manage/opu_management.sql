@@ -143,8 +143,8 @@ BEGIN
 		CALL getRandomOPUById(id, time_length, random_id);
 
     	IF random_id IS NOT NULL THEN
-        INSERT INTO opu_add(user_code, date, opu_list_id)
-        VALUES (id, CURDATE(), random_id);
+        INSERT INTO opu_add(user_code, date, opu_list_id, is_random)
+        VALUES (id, CURDATE(), random_id,'Y');
     END IF;
 
 END //
@@ -153,10 +153,11 @@ DELIMITER ;
 
 CALL random_opu_add(10, 15);
 
-SELECT o.date, o.user_code, o.is_check, os.opu_content
+SELECT o.date, o.user_code, o.is_check, os.opu_content, o.is_random
   FROM opu_add o
   JOIN opu_list ol ON ol.opu_list_id = o.opu_list_id
   JOIN opu_script os ON os.opu_id = ol.opu_id
+ WHERE o.is_random = 'Y'
  ORDER BY o.opu_add_id DESC;
 
 
