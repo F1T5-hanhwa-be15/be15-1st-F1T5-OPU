@@ -32,6 +32,8 @@
 
 # 💡 원 포인트 업이란?
 
+![Image](https://github.com/user-attachments/assets/4cea4c8c-c7c1-4609-830c-a2b9e0e197a4)
+
 '**원 포인트 업**'은 한 번에 거창한 목표를 세우기보다 **작은 목표를 하나씩 꾸준히 달성**하는 방식의 자기계발 전략입니다. 매일의 작은 성공이 점진적인 성장으로 이어지며, 이를 통해 더 큰 목표에 도전할 자신감을 얻게 됩니다.
 
 > 📌 오퓨(OPU)는 이러한 '원 포인트 업' 방식을 기반으로 사용자가 성취감을 경험하며 지속적으로 발전할 수 있도록 설계되었습니다.
@@ -39,6 +41,9 @@
 <br/>
 
 # 🖼️ 프로젝트 배경
+
+![Image](https://github.com/user-attachments/assets/9fb31c97-c8ce-48fa-a0b2-3516f3e61eee)
+
 ## (1) 현대 사회와 자기 계발 트렌드 
 
 - 현대 사회는 빠르게 변화하고 있으며, 자기 계발에 대한 관심이 높아지고 있습니다. 그러나 동시에 여러 목표를 한꺼번에 세우고 실패하는 경우도 빈번하게 발생합니다. 이런 상황은 목표 설정에 대한 부담감과 좌절로 이어질 수 있습니다.
@@ -295,7 +300,7 @@
 
 # ⛓️ 기술 스택
 
-<img src="https://img.shields.io/badge/mariadb-%23003545.svg?&style=for-the-badge&logo=mariadb&logoColor=white" /><img src="https://img.shields.io/badge/linux-%23FCC624.svg?&style=for-the-badge&logo=linux&logoColor=black" /><img src="https://img.shields.io/badge/ubuntu-%23E95420.svg?&style=for-the-badge&logo=ubuntu&logoColor=white" /><img src="https://img.shields.io/badge/github-%23181717.svg?&style=for-the-badge&logo=github&logoColor=white" /><img src="https://img.shields.io/badge/notion-%23000000.svg?&style=for-the-badge&logo=notion&logoColor=white" />
+<img src="https://img.shields.io/badge/mariadb-%23003545.svg?&style=for-the-badge&logo=mariadb&logoColor=white" /><img src="https://img.shields.io/badge/linux-%23FCC624.svg?&style=for-the-badge&logo=linux&logoColor=black" /><img src="https://img.shields.io/badge/ubuntu-%23E95420.svg?&style=for-the-badge&logo=ubuntu&logoColor=white" /><img src="https://img.shields.io/badge/github-%23181717.svg?&style=for-the-badge&logo=github&logoColor=white" /><img src="https://img.shields.io/badge/notion-%23000000.svg?&style=for-the-badge&logo=notion&logoColor=white" /><img src="https://img.shields.io/badge/HeidiSQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" /><img src="https://img.shields.io/badge/ERD_Cloud-4A90E2?style=for-the-badge&logo=cloud&logoColor=white" /><img src="https://img.shields.io/badge/DA%23MODELER-1D3557?style=for-the-badge&logo=diagram&logoColor=white" /><img src="https://img.shields.io/badge/Draw.io-F08705?style=for-the-badge&logo=diagrams.net&logoColor=white" />
 
 <br/>
 
@@ -456,7 +461,8 @@
 
 ## 유스케이스 다이어그램
 
-![Image](https://github.com/user-attachments/assets/64bf3315-7bc2-4311-9d37-743f16aedbeb)
+![UML](https://github.com/user-attachments/assets/aeb5f534-cc5e-4189-8512-75715a4bff61)
+
 
 <br/>
 
@@ -475,8 +481,8 @@
 # 🌊 플로우 차트
 
 
+![image](https://github.com/user-attachments/assets/cb74abc9-12a2-4a98-8344-d4fc1a43ed98)
 
-![Image](https://github.com/user-attachments/assets/586c6c06-8d63-4d1f-bdd1-6cca6262d017)
 
 <br/>
 
@@ -502,8 +508,9 @@
 # ⚙️ 테스트 케이스 코드 및 실행
 
 <details>
-<summary>&nbsp;사용자 관련 기능</summary>
+<summary>&nbsp;사용자 기능</summary>
 <div markdown=1>
+
 <li> 회원가입
 
 ![alt text](assets/image/테스트케이스_회원가입1.png)
@@ -563,7 +570,7 @@
 </details>
 
 <details>
-<summary>&nbsp;성향 검사</summary>
+<summary>&nbsp;성향 검사 기능</summary>
 <div markdown=1>
 
 ![text](assets/image/테스트케이스_성향검사_성향검사결과조회.png) ![text](assets/image/테스트케이스_성향검사_성향검사결과추가1.png) ![text](assets/image/테스트케이스_성향검사_성향검사결과추가2.png) ![text](assets/image/테스트케이스_성향검사_성향재검사.png)
@@ -581,10 +588,12 @@
 </details>
 
 <details>
-<summary>&nbsp;커뮤니티 관련 기능</summary>
+<summary>&nbsp;커뮤니티 기능</summary>
 <div markdown=1>
 
-<li>
+<li> 신고 
+
+![text](assets/image/테스트케이스_커뮤니티_신고_게시글.png) ![text](assets/image/테스트케이스_커뮤니티_신고_댓글.png)
 
 <li> 자유게시판
 
@@ -609,7 +618,7 @@
 </details>
 
 <details>
-<summary>&nbsp;캘린더</summary>
+<summary>&nbsp;캘린더 기능</summary>
 <div markdown=1>
 
 ![assets/image/테스트케이스_캘린더_사용자 성취율 조회.png assets/image/테스트케이스_캘린더_사용자 opu 조회.png](<assets/image/테스트케이스_캘린더_사용자 성취율 조회.png>) ![assets/image/테스트케이스_캘린더_사용자 성취율 조회.png assets/image/테스트케이스_캘린더_사용자 opu 조회.png](<assets/image/테스트케이스_캘린더_사용자 opu 조회.png>)
@@ -627,10 +636,16 @@
 </details>
 
 <details>
-<summary>&nbsp;기능</summary>
+<summary>&nbsp;OPU 기능</summary>
 <div markdown=1>
 
-<!-- 실행 결과 넣기 -->
+<li> OPU 관리
+
+![text](assets/image/테스트케이스_커뮤니티_신고_게시글.png) ![text](assets/image/테스트케이스_커뮤니티_신고_댓글.png) ![text](assets/image/테스트케이스_opu관리_데일리opu조회.png) ![text](assets/image/테스트케이스_opu관리_데일리opu체크표시.png) ![text](assets/image/테스트케이스_opu관리_랜덤뽑기opu추가.png) ![text](assets/image/테스트케이스_opu관리_사용자지정opu추가.png) ![text](assets/image/테스트케이스_opu관리_추가opu삭제.png) ![text](assets/image/테스트케이스_opu관리_opu검색.png) ![text](assets/image/테스트케이스_opu관리_opu목록조회.png) ![text](assets/image/테스트케이스_opu관리_opu수정.png) ![text](assets/image/테스트케이스_opu관리_opu찜삭제.png) ![text](assets/image/테스트케이스_opu관리_opu찜추가.png) ![text](assets/image/테스트케이스_opu관리_opu추가.png) ![text](assets/image/테스트케이스_opu관리_opu추가조회.png)
+
+<li> OPU 랜덤 뽑기
+
+![text](assets/image/테스트케이스_opu랜덤뽑기_비회원_1.png) ![text](assets/image/테스트케이스_opu랜덤뽑기_비회원_2.png) ![text](assets/image/테스트케이스_opu랜덤뽑기_회원_1.png) ![text](assets/image/테스트케이스_opu랜덤뽑기_회원_2.png) ![text](assets/image/테스트케이스_opu랜덤뽑기_회원_3.png)
 
 </div>
 </details>
@@ -639,16 +654,17 @@
 
 # 📀 백업 계획
 
-<!-- 사진 넣고 수정 -->
+![Image](https://github.com/user-attachments/assets/5cb4303f-eac0-4407-923a-97651421c13d)
+![Image](https://github.com/user-attachments/assets/8b4b31a4-6718-46d7-b17d-e41e5708dbd7)
 
 <br/>
 
 # 🫂 팀원 회고
 
-|김경민|회고 내용|
-|---|---|
-|김채원|회고 내용|
-|차명호|회고 내용|
-|윤채영|회고 내용|
-|정유진|회고 내용|
-|김여진|회고 내용|
+| 김경민 | 오랜만에 하는 팀 프로젝트라 설렘 반 걱정 반으로 프로젝트를 시작했다. 자신이 궁금하거나 모르는 점이 있으면 서로 바로바로 소통하자는 그라운드 룰이 있어서 팀원들과 대화를 많이 했다. 대화를 많이 하다 보니 서로의 생각이 다른 부분을 빠르게 맞춰나갈 수 있어 팀원들과 큰 충돌 없이 프로젝트를 잘 끝낼 수 있었던 것 같다. 이번 프로젝트를 진행하기 전에 DB에 대한 전반적인 개념은 있었지만 부족한 부분이 많았다. 하지만 프로젝트를 점점 진행하면서 DB에 대한 심화적인 개념과 precedure, fucntion, trigger 등 다뤄보지 않은 부분에 대해 배우고 다룰 수 있어서 정말 좋았다. 또한 설계를 꼼꼼하고 탄탄하게 해야 한다는 것을 몸으로 느꼈다. 다음 프로젝트 진행함에 있어서는 더더욱 발전한 모습으로 프로젝트에 임할 수 있을 것 같다. 질문도 많고 많이 부족했지만 항상 밝은 웃음으로 도와줬던 모든 팀원들에게 회고록을 통해 고마움을 전한다. |
+| :---: | :--- |
+| 김채원 | 문서작성보다는 기획을 구체적으로 함으로서 서로의 생각을 통일하고 각자 분업하는 방식이 좋았다. 각자 잘하는 부분이 있어서 후반에는 자연스럽게 자기가 하고싶은걸 맡아서 했는데 상호보완적으로 맞아 떨어져서 좋았다. 이 프로젝트를 통해 DDL, DML 언어에 더 익숙해져서 좋았다. 특히 물리 모델에서 DDL 언어를 뽑아내는 역할을 했는데 그 과정에서 foreign key constraint 옵션과 default 값, unique key 등 필수로 신경써야하는 부분들에 대해 익숙해질 수 있어서 좋았다. 개발적으로 팀플하는게 처음이라 초반에는 필터링 없이 말했는데 내가 하고싶은 말을 조금은 더 부드럽게 할 줄 알게된 것 같다. 팀원들이 어떻게 말하는지 보고 배운 것 같다. 신경써야 할 부분을 하나씩 놓쳐서 실수하면 팀원들이 그 부분을 케어해줬다. 다음 프로젝트 때는 놓치는 부분 없도록 검토를 해야겠다.|
+| 차명호 | 이번 첫번째 프로젝트를 하면서 처음에는 비전공자여서 사실 좀 걱정이 많았는데 조원들이 다들 잘 알려줘서 무탈하게 끝난거 같다. 마지막 프로젝트 날에 졸업식이 겹쳐서 조원들한테 미안한 마음도 있고 고마운 마음도 있다. 그리고 팀원들이 다들 열심히 하고 내가 부족한 부분들을 채워줘서 잘 끝난거 같다. 다음 프로젝트때도 더 열심히 준비해서 무탈없이 끝났으면 좋겠다. |
+| 윤채영 | 협업툴 사용이 좀 더 익숙해지는 계기가 되었다. 대화를 통해 소통하고 각자 정리하는 것도 중요하지만, 노션에 매일 안건과 회의 기록, 오늘의 과제를 기록하니까 팀원들과의 오해도 줄고 시간을 훨씬 효율적으로 사용할 수 있었다. 내가 맡은 일을 하고 있을 때에 다른 팀원들의 의견을 집중해서 듣지 못 하였는데 다음부터는 우선순위를 분명히 정하여 효율적인 Task 관리를 해야겠다고 생각했다. 학부생 시절 프로젝트에서는 마냥 기능만 구현하면 끝이라고 생각했는데 sql문 작성 시에 트리거와 프로시저 사용을 다양하게 하여 '좋은 코드'를 만드는 개발자로 한 걸음 성장하게 되었다. 5개월 뒤의 내가 기다려지는 첫 번째 프로젝트였다. |
+| 정유진 | 프로젝트를 진행하면서 그날에 할 일을 정하고 진행하는 방식이었는데, 확실히 이렇게 하니깐 더 체계적이고 좋았다. 처음에는 순차적으로 진행하면 잘 될거라고 생각했는데, 요구사항부터 모두 우리가 생각하고 진행하니 다음 단계를 진행하다가 전 단계로 돌아가서 수정을 진행했다. 이 부분에서 약간의 어려움을 느꼈지만, 조원들끼리 역할 분담을 해 변경사항을 바로 수정해서 잘 해결했다. 그리고 등급 수정 부분(trigger,procedure 다 구현) 구현할 때 너무 복잡해서 수정하나에 100줄이 넘는 코드가 나왔다. 코드를 작성할때 정말 어려웠지만, 잘 완성하고 테스트까지 통과하는 것을 보고 뿌듯했다 ㅎㅎㅎㅎ 마지막으로 좋은 팀원들 덕분에 프로젝트를 잘 마무리 할 수 있었다. 열심히 도와주고 피드백을 해 준 조원들에게 감사하다고 하고싶다. |
+| 김여진 | 짧은 기간과 부족한 기초 지식에도 불구하고, 활발한 논의와 협업을 통해 ERD 제작, SQL 구문, GitHub 사용법 등 다양한 개념을 깊이 이해할 수 있었다. 특히 ERD 제작과 GitHub 사용의 경우 미숙한 부분이 많았지만, 프로젝트를 진행하며 실전에서 직접 활용하고 피드백을 주고받는 과정을 통해 한층 성장할 수 있었다. 논의 과정에서는 각자의 이해 차이를 명확히 정리하며, 잘못 알고 있거나 다르게 인식했던 부분을 함께 검토하고 해결해 나갔다. 또한, 서로의 새로운 의견을 가볍게 넘기거나 단순히 비판하기보다 면밀히 분석하고 수용하려는 태도를 유지했다.팀원들은 각자 맡은 파트를 책임감 있게 수행하며, 개인 업무를 마친 후에도 여력이 되는 만큼 적극적으로 다른 팀원들의 작업을 도왔다. 이러한 협력적인 분위기 덕분에 프로젝트 진행 속도를 높일 수 있었고, 결과적으로 더욱 완성도 높은 산출물을 만들어낼 수 있었다. |
