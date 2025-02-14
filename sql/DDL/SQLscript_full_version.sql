@@ -57,7 +57,8 @@ CREATE OR REPLACE TABLE `user` (
     `delete_date`  TIMESTAMP    COMMENT '탈퇴 신청 날짜',
     `level_id`     INTEGER      DEFAULT 1 NOT NULL COMMENT '등급 ID',
     PRIMARY KEY (`user_code`),
-    UNIQUE ( `user_id`,`phone` ),
+    UNIQUE ( `user_id` ),
+    UNIQUE ( `phone` ),
     FOREIGN KEY (`level_id`)
         REFERENCES `level` (`level_id`)
         ON DELETE RESTRICT

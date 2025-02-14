@@ -46,7 +46,7 @@ LEFT JOIN (
     FROM post_like
     GROUP BY post_id
 ) pl ON p.post_id = pl.post_id
-WHERE p.post_id = 3
+WHERE p.post_id = 2
 	 AND p.is_delete = 'N';  -- 조회할 게시글 ID
 
 -- 5. 게시글 추가
@@ -84,12 +84,52 @@ DELIMITER ;
 INSERT INTO post (post_title, post_content, user_code, category_id)
 VALUES ('[공지] 후기 게시판 규칙', '1. 직접 수행한 OPU여야 합니다. 2. 과시하는 듯한 태도는 버려주세요.', 2, 2);
 
+SELECT 
+    p.post_id AS 게시글ID, 
+    u.nickname AS 닉네임, 
+    p.post_title AS 제목,
+    p.post_content AS 내용, 
+    i.img_url AS 사진, 
+    COALESCE(p.update_at, p.create_at) AS 작성시간
+  FROM post p 
+  JOIN user u ON p.user_code = u.user_code
+  LEFT JOIN post_img i ON p.post_id = i.post_id
+ WHERE p.is_delete = 'N'
+ ORDER BY p.post_id DESC LIMIT 1;  -- 조회할 게시글 ID
+
 -- 6. 게시글 수정
 update post
 SET post_content = '1. 직접 수행한 OPU여야 합니다. 2. 과시해주세요.'
 WHERE post_id = 363;
 
+SELECT 
+    p.post_id AS 게시글ID, 
+    u.nickname AS 닉네임, 
+    p.post_title AS 제목,
+    p.post_content AS 내용, 
+    i.img_url AS 사진, 
+    COALESCE(p.update_at, p.create_at) AS 작성시간
+  FROM post p 
+  JOIN user u ON p.user_code = u.user_code
+  LEFT JOIN post_img i ON p.post_id = i.post_id
+ WHERE p.is_delete = 'N'
+ ORDER BY p.post_id DESC LIMIT 1;  -- 조회할 게시글 ID
+
 --  7. 게시글 삭제
 UPDATE post 
 SET is_delete = 'Y'
 WHERE post_id = 363;
+
+SELECT 
+    p.post_id AS 게시글ID, 
+    u.nickname AS 닉네임, 
+    p.post_title AS 제목,
+    p.post_content AS 내용, 
+    i.img_url AS 사진, 
+    COALESCE(p.update_at, p.create_at) AS 작성시간,
+    p.is_delete AS 삭제여부
+  FROM post p 
+  JOIN user u ON p.user_code = u.user_code
+  LEFT JOIN post_img i ON p.post_id = i.post_id
+ WHERE p.is_delete = 'Y'
+ ORDER BY p.post_id DESC LIMIT 1;
