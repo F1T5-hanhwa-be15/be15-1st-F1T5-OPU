@@ -1,3 +1,14 @@
+-- 1. opu 조회
+-- 1-1) opu 추가 목록 조회
+SELECT o.date, o.user_code, o.is_check, os.opu_content
+  FROM opu_add o
+  JOIN opu_list ol ON ol.opu_list_id = o.opu_list_id
+  JOIN opu_script os ON os.opu_id = ol.opu_id
+ WHERE o.is_delete = 'N'
+   AND DATEDIFF(o.date, CURDATE()) >= 0
+   AND o.user_code = 3
+ ORDER BY o.date;
+
 
 -- opu 수정
 UPDATE opu_add
